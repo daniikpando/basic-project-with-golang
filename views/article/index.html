@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get all articles</title>
+</head>
+<body>
+    <div class="container">
+        <h1> All articles</h1>
+        {{ range . }}
+            <p>
+                <b><a href="/articles/{{ .IdArticle }}">{{ .Title }}</a>: {{ .Description }}</b>
+                <a href="/articles/{{.IdArticle}}/edit">Edit article</a>
+                <a href="/articles/{{.IdArticle}}/delete">Delete article</a>
+            </p>
+        {{end}}
+    </div>
+
+    <div>
+        <a href="/articles/new"> Create a new article</a>
+    </div>
+</body>
+</html>

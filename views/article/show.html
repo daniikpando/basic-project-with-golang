@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Article</title>
+</head>
+<body>
+    <div class="container">
+
+        <h1>You can view this article</h1>
+
+        <h2>Title: {{ .Title}}</h2>
+        <p>Content: {{ .Content }}</p>
+        <p>Description: {{ .Description }} </p>
+
+        <div class="url">
+            <a href="/articles">Go to view all articles</a>
+            <a href="/articles/{{ .IdArticle }}/edit">Go to edit this article</a>
+
+            <a href="/articles/{{ .IdArticle }}/delete" id="link-delete">Go to delete this article</a>
+        </div>
+    </div>
+</body>
+</html>
