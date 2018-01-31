@@ -28,7 +28,10 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 	detectErr(err, "Error en la obtencion de los articulos")
 
-	parseHtml(w, "./views/article/index.html", articles)
+	//parseHtml(w, "./views/article/index.html", articles)
+	t := template.Must(template.ParseFiles("./views/application/layout.tmpl", "./views/article/index.tmpl"))
+
+	t.ExecuteTemplate(w, "articles", articles)
 }
 
 func Show(w http.ResponseWriter, r *http.Request) {
