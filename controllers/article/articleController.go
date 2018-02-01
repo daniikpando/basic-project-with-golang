@@ -18,6 +18,7 @@ func init() {
 
 }
 
+// Index :  GET - /articles
 func Index(w http.ResponseWriter, r *http.Request) {
 
 	log.Println(r.RequestURI)
@@ -28,35 +29,37 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 	detectErr(err, "Error en la obtencion de los articulos")
 
-	parseHtml(w, "./views/article/index.html", articles)
+	parseHTML(w, "./views/application/layout.tmpl", "./views/article/index.tmpl", articles, "articles")
 }
 
+// Show : GET /articles/{id}
 func Show(w http.ResponseWriter, r *http.Request) {
 
 	log.Println(r.RequestURI)
 
-	var id_article int
+	var idArticle int
 
 	article := models.Article{}
 
 	vars := mux.Vars(r)
 
-	id_article, err := strconv.Atoi(vars["id"])
+	idArticle, err := strconv.Atoi(vars["id"])
 
 	detectErr(err, "Error de conversion de datos")
 
-	article, err = manager.GetById(id_article)
+	article, err = manager.GetById(idArticle)
 
 	detectErr(err, "No se ha encontrado el registro ")
 
-	parseHtml(w, "./views/article/show.html", article)
-
+	parseHTML(w, "./views/application/layout.tmpl", "./views/article/show.tmpl", article, "showArticle")
 }
 
+// New : GET /articles/new
 func New(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "./views/article/new.html")
+	parseHTML(w, "./views/application/layout.tmpl", "./views/article/new.tmpl", models.Article{}, "newArticle")
 }
 
+// Create : POST - /articles/create
 func Create(w http.ResponseWriter, r *http.Request) {
 
 	r.ParseForm()
@@ -78,35 +81,37 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/articles", http.StatusFound)
 }
 
+// Edit : GET - /articles/{id}/edit
 func Edit(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 
-	id_article, err := strconv.Atoi(vars["id"])
+	idArticle, err := strconv.Atoi(vars["id"])
 
 	detectErr(err, "Error de conversion de datos")
 
 	article := models.Article{}
 
-	article, err = manager.GetById(id_article)
+	article, err = manager.GetById(idArticle)
 
 	detectErr(err, "Error en la base de datos")
 
-	parseHtml(w, "./views/article/edit.html", article)
+	parseHTML(w, "./views/application/layout.tmpl", "./views/article/edit.tmpl", article, "editArticle")
 
 }
 
+// Update : PUT - /articles/update
 func Update(w http.ResponseWriter, r *http.Request) {
 
 	r.ParseForm()
 
 	article := models.Article{}
 
-	id_article, err := strconv.Atoi(r.FormValue("id_article"))
+	idArticle, err := strconv.Atoi(r.FormValue("id_article"))
 
 	detectErr(err, "Error de conversion de datos")
 
-	article.IdArticle = id_article
+	article.IdArticle = idArticle
 	article.Title = r.FormValue("title")
 	article.Content = r.FormValue("content")
 	article.Description = r.FormValue("description")
@@ -118,15 +123,16 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/articles", http.StatusFound)
 }
 
+// Delete : DELETE - /articles/{id}/delete
 func Delete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	article := models.Article{}
-	id_article, err := strconv.Atoi(vars["id"])
+	idArticle, err := strconv.Atoi(vars["id"])
 
 	detectErr(err, "Error en el envio de datos a la URL")
 
-	article.IdArticle = id_article
+	article.IdArticle = idArticle
 	err = manager.Delete(&article)
 
 	detectErr(err, "Error en la eliminacion del registro")
@@ -144,8 +150,7 @@ func detectErr(err error, message string) {
 	}
 }
 
-func parseHtml(w http.ResponseWriter, location string, obj interface{}) {
-	parser, err := template.ParseFiles(location)
-	detectErr(err, "Error al parcear el html")
-	parser.Execute(w, obj)
+func parseHTML(w http.ResponseWriter, temp string, location string, obj interface{}, nameFile string) {
+	t := template.Must(template.ParseFiles(temp, location))
+	t.ExecuteTemplate(w, nameFile, obj)
 }
