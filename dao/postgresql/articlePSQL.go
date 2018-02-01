@@ -15,7 +15,6 @@ func (art ArticlePSQL) Create(article *models.Article) error {
 				VALUES($1, $2, $3)`
 
 	db := GetConnection()
-	defer db.Close()
 
 	stmt, err := db.Prepare(query)
 
@@ -45,7 +44,6 @@ func (art ArticlePSQL) Delete(article *models.Article) error {
 	query := `DELETE FROM article WHERE id_article = $1`
 
 	db := GetConnection()
-	defer db.Close()
 
 	stmt, err := db.Prepare(query)
 	defer stmt.Close()
@@ -75,8 +73,7 @@ func (art ArticlePSQL) Update(article *models.Article) error {
 				WHERE id_article= $4`
 
 	db := GetConnection()
-	defer db.Close()
-
+	
 	stmt, err := db.Prepare(query)
 
 	if err != nil {
@@ -107,7 +104,6 @@ func (art ArticlePSQL) GetAll() ([]models.Article, error) {
 	query := `SELECT id_article, title,content,description  FROM article`
 
 	db := GetConnection()
-	defer db.Close()
 
 	// Obtengo el set de resultados que obtuve gracias a la consulta o tambien puedo recibir un error
 	resultSet, err := db.Query(query)
@@ -155,7 +151,6 @@ func (art ArticlePSQL) GetById(id int) (models.Article, error) {
 	query := `SELECT id_article, title,content,description  FROM article WHERE id_article = $1`
 
 	db := GetConnection()
-	defer db.Close()
 
 	// Obtengo el set de resultados que obtuve gracias a la consulta o tambien puedo recibir un error
 	resultSet, err := db.Query(query, id)
