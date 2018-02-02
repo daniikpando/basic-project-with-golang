@@ -8,7 +8,6 @@ import (
 	"github.com/gorilla/mux"
 )
 
-//"ppl-ps":"$\$daniikpando" --contraseña paypal
 func main() {
 	port := ":8000"
 	router := mux.NewRouter()
