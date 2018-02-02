@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/daniel/apiRest2/route"
+	"github.com/daniel/basic-project-with-golang/route"
 	"github.com/gorilla/mux"
 )
 

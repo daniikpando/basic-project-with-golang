@@ -3,7 +3,7 @@ package postgresql
 import (
 	"errors"
 
-	"github.com/daniel/apiRest2/models"
+	"github.com/daniel/basic-project-with-golang/models"
 )
 
 type ArticlePSQL struct{}
@@ -73,7 +73,7 @@ func (art ArticlePSQL) Update(article *models.Article) error {
 				WHERE id_article= $4`
 
 	db := GetConnection()
-	
+
 	stmt, err := db.Prepare(query)
 
 	if err != nil {

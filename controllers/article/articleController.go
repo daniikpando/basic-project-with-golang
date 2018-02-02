@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/daniel/apiRest2/dao/postgresql"
-	"github.com/daniel/apiRest2/models"
+	"github.com/daniel/basic-project-with-golang/dao/postgresql"
+	"github.com/daniel/basic-project-with-golang/models"
 	"github.com/gorilla/mux"
 )
 

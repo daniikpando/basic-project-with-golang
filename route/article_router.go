@@ -1,7 +1,7 @@
 package route
 
 import (
-	"github.com/daniel/apiRest2/controllers/article"
+	"github.com/daniel/basic-project-with-golang/controllers/article"
 	"github.com/gorilla/mux"
 )
 

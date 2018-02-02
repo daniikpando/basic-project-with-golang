@@ -6,15 +6,14 @@ import (
 	"log"
 	"sync"
 
-	"github.com/daniel/apiRest2/utilities"
+	"github.com/daniel/basic-project-with-golang/utilities"
 	_ "github.com/lib/pq"
 )
 
 var (
 	connect sync.Once
-	db *sql.DB
+	db      *sql.DB
 )
-
 
 func GetConnection() *sql.DB {
 
